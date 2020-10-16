@@ -1,4 +1,9 @@
-<%= @Player1_Name %> <%= @Player1_HP %>/60 HP VS. <%= @Player2_Name %> <%= @Player2_HP %>/60 HP
+<h1><%= @Player1_Name %> VS. <%= @Player2_Name %></h1>
+<h2><%= @Player1_Name %>: <%= @Player1_HP %>/60 HP</h2>
 <form action="/attack" method='post'>
   <input type="submit" value="Attack">
 </form>
+<h2><%= @Player2_Name %> <%= @Player2_HP %>/60 HP</h2>
+<br>
+<br>
+<i><%= @battle_log %></i>
