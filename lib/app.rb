@@ -1,6 +1,6 @@
 require 'sinatra'
-require './lib/hp_calculator.rb'
-require './lib/battle_log.rb'
+require './lib/player.rb'
+require './lib/game.rb'
 
 
 class Battle < Sinatra::Base
@@ -15,17 +15,16 @@ class Battle < Sinatra::Base
   post '/names' do
     $player_1 = Player.new(params[:player1_name])
     $player_2 = Player.new(params[:player2_name])
-    session[:player1_HP] = "60"
-    session[:player2_HP] = "60"
+    $game = Game.new
     redirect '/play'
   end
 
   get '/play' do
     @player1_name = $player_1.name
     @player2_name = $player_2.name
-    @player1_HP = session[:player1_HP]
-    @player2_HP = session[:player2_HP]
-    @battle_log = session[:battle_log]
+    @player1_HP = $player_1.hp
+    @player2_HP = $player_2.hp
+    @battle_log = $game.log[-1]
     erb(:play)
   end
 
@@ -36,9 +35,7 @@ class Battle < Sinatra::Base
   # end
 
   post "/attack" do
-    session[:player2_HP]
-    session[:player2_HP] = minus(session[:player2_HP])
-    session[:battle_log] = attack($player_1.name, $player_2.name)
+    $game.attack($player_1, $player_2)
     redirect "/play"
   end
 
