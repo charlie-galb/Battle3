@@ -1,5 +1,5 @@
 require 'sinatra'
-require './actions.rb'
+require './lib/actions.rb'
 
 class Battle < Sinatra::Base
 
