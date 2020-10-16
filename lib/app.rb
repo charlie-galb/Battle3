@@ -13,18 +13,18 @@ class Battle < Sinatra::Base
   end
 
   post '/names' do
-    session[:Player1_Name] = params[:Player1_Name]
-    session[:Player2_Name] = params[:Player2_Name]
-    session[:Player1_HP] = "60"
-    session[:Player2_HP] = "60"
+    $player_1 = Player.new(params[:player1_name])
+    $player_2 = Player.new(params[:player2_name])
+    session[:player1_HP] = "60"
+    session[:player2_HP] = "60"
     redirect '/play'
   end
 
   get '/play' do
-    @Player1_Name = session[:Player1_Name]
-    @Player2_Name = session[:Player2_Name]
-    @Player1_HP = session[:Player1_HP]
-    @Player2_HP = session[:Player2_HP]
+    @player1_name = $player_1.name
+    @player2_name = $player_2.name
+    @player1_HP = session[:player1_HP]
+    @player2_HP = session[:player2_HP]
     @battle_log = session[:battle_log]
     erb(:play)
   end
@@ -36,9 +36,9 @@ class Battle < Sinatra::Base
   # end
 
   post "/attack" do
-    session[:Player2_HP]
-    session[:Player2_HP] = minus(session[:Player2_HP])
-    session[:battle_log] = attack(session[:Player1_Name], session[:Player2_Name])
+    session[:player2_HP]
+    session[:player2_HP] = minus(session[:player2_HP])
+    session[:battle_log] = attack($player_1.name, $player_2.name)
     redirect "/play"
   end
 
